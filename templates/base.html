@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}VolPeNuts{% endblock %}</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/volpenuts-dryfruit.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script>
+    setTimeout(() => {
+      document.querySelectorAll('.flash-message').forEach(el => {
+        el.style.transition = "opacity 0.5s ease-out";
+        el.style.opacity = 0;
+        setTimeout(() => el.remove(), 500);
+      });
+    }, 2000);
+
+  </script>
+  <style>
+    .navbar-nav .nav-link {
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+}
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="VolPeNuts Logo" height="50">
+      </a>
+
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto d-flex gap-3">
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('index') }}">🏠 Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('about') }}">📖 About Us</a>
+  </li>
+
+  {% if not session.get("user_logged_in") %}
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('user_bp.user_login') }}">🔐 Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('cart_bp.cart') }}">
+      🛒 Cart{% if cart_count > 0 %} ({{ cart_count }}){% endif %}
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('contact') }}">📞 Contact Us</a>
+    </li>
+  {% else %}
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('user_bp.dashboard') }}">📋 Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('cart_bp.cart') }}">
+        🛒 Cart{% if cart_count > 0 %} ({{ cart_count }}){% endif %}
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-danger" href="{{ url_for('user_bp.user_logout') }}">🚪 Logout</a>
+    </li>
+  {% endif %}
+
+</ul>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- ✅ Flash Messages -->
+  <div class="container mt-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ 'success' if category == 'success' else 'warning' }} flash-message text-center" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  </div>
+
+
+  {% block content %}{% endblock %}
+
+<footer class="bg-light text-center py-3 mt-auto border-top">
+    <p class="mb-0 text-muted">© 2026 VolPeNuts — Premium Dry Fruits Delivered Fresh</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

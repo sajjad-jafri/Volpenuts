@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .qr-section {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 60px 0;
+  }
+  .qr-box {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+  }
+  .qr-image {
+    max-width: 250px;
+    height: auto;
+    margin: 20px 0;
+    box-shadow: 0 0 20px rgba(0,0,0,0.08);
+  }
+  .btn-action {
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    margin: 10px;
+  }
+</style>
+
+<div class="qr-section">
+  <div class="container">
+    <div class="qr-box">
+      <h2 class="text-success mb-3">Complete Your Order</h2>
+      <p class="fs-5 mb-4">Scan the QR code below to proceed with payment:</p>
+
+      <img src="{{ url_for('static', filename='images/qr_code.png') }}"
+           alt="Payment QR Code"
+           class="img-fluid qr-image">
+
+      <p class="mt-4">Click <strong>Confirm</strong> if payment is done, otherwise go back to cart.</p>
+
+      <div>
+        <form method="POST" action="{{ url_for('cart_bp.confirm_order') }}" style="display:inline;">
+          <button type="submit" class="btn btn-success btn-action">Confirm</button>
+        </form>
+        <a href="{{ url_for('cart_bp.cart') }}" class="btn btn-outline-secondary btn-action">
+          Back to Cart
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

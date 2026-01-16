@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+
+  <!-- Welcome Card (Top) -->
+  <div class="card shadow-sm mb-4 w-100">
+    <div class="card-body text-center">
+      <h3 class="text-success mb-2">Welcome to your dashboard!</h3>
+      <p class="text-muted fs-5">
+        You can track your orders here.
+      </p>
+    </div>
+  </div>
+
+  <!-- Orders Card (Below) -->
+  <div class="card shadow-sm w-100">
+    <div class="card-header bg-light">
+      <h4 class="mb-0">📦 My Orders</h4>
+    </div>
+    <div class="card-body">
+      {% if orders %}
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-success">
+              <tr>
+                <th>Order ID</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+              <tr>
+                <td><strong>#{{ order.id }}</strong></td>
+                <td>
+                  <ul class="list-unstyled mb-0">
+                    {% set total = 0 %}
+                    {% for item in order.items %}
+                      <li>
+                        {{ item.item }}({{ item.weight }}) - ₹{{ item.price }}
+                      </li>
+                    {% endfor %}
+                    <li class="fw-bold mt-2">Total: ₹{{ order.total_price }}</li>
+                  </ul>
+                </td>
+
+                <td>
+                  {% if order.status == "Pending" %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                  {% elif order.status == "Approved" %}
+                    <span class="badge bg-success">Approved</span>
+                  {% else %}
+                    <span class="badge bg-danger">Cancelled</span>
+                  {% endif %}
+                </td>
+                <td>{{ order.created_at }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="alert alert-info text-center mb-0">
+          You have no orders yet.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

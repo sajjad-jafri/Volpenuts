@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row g-4 align-items-center flex-md-nowrap">
+    <!-- Image Column -->
+    <div class="col-md-6">
+      <img src="{{ url_for('static', filename='images/home.png') }}"
+           alt="BruNuts About Us"
+           class="img-fluid rounded shadow w-100"
+           style="max-height: 400px; object-fit: contain;">
+    </div>
+
+    <!-- Text Column -->
+    <div class="col-md-6">
+      <div class="mt-3"> <!-- Adds spacing above the text -->
+        <h2 class="mb-3" style="color: #2b6777; font-weight: 700; letter-spacing: 1px;">
+          About BruNuts
+        </h2>
+        <p class="lead">
+          At <strong>BruNuts</strong>, we believe in returning to simplicity — embracing nature’s original bounty with purity, passion, and purpose. Our mission is to deliver premium quality dry fruits and nuts that nourish your body and delight your senses.
+        </p>
+        <p>
+          Founded with a vision to make healthy snacking accessible and enjoyable, BruNuts sources handpicked ingredients from trusted farms and suppliers. Every almond, pistachio, raisin, and cashew is selected with care, ensuring freshness, flavor, and nutritional value.
+        </p>
+        <p>
+          Whether you're stocking up for your family, gifting wellness to loved ones, or simply indulging in a mindful treat — BruNuts is your go-to destination for wholesome goodness.
+        </p>
+        <p class="fw-bold mt-3">Nature’s Goodness, Handpicked for You.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

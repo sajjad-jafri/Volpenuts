@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Your Cart</h2>
+  {% if cart %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Weight</th>
+          <th>Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart %}
+        <tr>
+          <td>{{ item.item }}</td>
+          <td>{{ item.weight }}</td>
+          <td>₹{{ item.price }}</td>
+          <td>
+            <form method="POST" action="{{ url_for('cart_bp.remove_from_cart') }}">
+  <input type="hidden" name="product_id" value="{{ item.product_id }}">
+  <input type="hidden" name="weight" value="{{ item.weight }}">
+  <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+</form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if discount > 0 %}
+        <div class="alert alert-success">
+            🎉 Offer Applied: {{ discount }}% off — You saved ₹{{ discount_amount }}
+        </div>
+    {% elif min_order > 0 %}
+        <div class="alert alert-warning">
+        Spend ₹{{ min_order }} or more to unlock the current offer!
+        </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <h5 class="mb-3">Total: ₹{{ total }}</h5>
+        <a href="{{ url_for('cart_bp.place_order') }}" class="btn btn-success px-4">Place Order</a>
+    </div>
+  {% else %}
+    <p>Your cart is empty.</p>
+  {% endif %}
+
+
+</div>
+{% endblock %}

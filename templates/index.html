@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+<script>
+function updatePrice(selectElement) {
+  const weight = selectElement.value;
+  const form = selectElement.closest("form");
+  const basePrice = parseInt(form.querySelector('input[name="base_price"]').value);
+  let finalPrice = basePrice;
+
+  if (weight === "200gm") finalPrice = Math.round(basePrice * 0.4);  // 40% of 500gm
+  else if (weight === "500gm") finalPrice = basePrice;
+
+  const priceBox = form.querySelector(".price-box");
+  priceBox.textContent = "₹" + finalPrice;
+}
+</script>
+
+<style>
+  .bg-maroon {
+    background-color: maroon;
+  }
+</style>
+
+<div class="container-fluid p-0">
+  <img src="{{ url_for('static', filename='images/home111.png') }}"
+       alt="VolPeNuts Banner"
+       class="w-100"
+       style="height: 520px; object-fit: cover; display: block;">
+</div>
+
+{% if offer and offer.enabled and offer.text %}
+<div class="bg-maroon text-white py-2">
+  <marquee behavior="scroll" direction="left">{{ offer.text }}</marquee>
+</div>
+{% endif %}
+
+<div class="hero text-center my-4">
+  <h1 class="brand">
+    {% if session.get("user_logged_in") %}
+      Welcome {{ session.get("username")|capitalize }}
+    {% else %}
+      Welcome to 🥜 VolPeNuts
+      <p class="tagline">Premium Dry Fruits Delivered Fresh</p>
+    {% endif %}
+  </h1>
+</div>
+
+<!-- ✅ Product Cards -->
+<div class="container d-flex flex-wrap justify-content-center gap-4 mb-5">
+  {% for fruit in dry_fruits %}
+  <div class="card p-3" style="width: 18rem;">
+    <img src="{{ url_for('static', filename=fruit.image) }}" class="card-img-top" alt="{{ fruit.name }}">
+    <div class="card-body">
+      <h5 class="card-title">{{ fruit.name }}</h5>
+      <form method="POST" action="{{ url_for('cart_bp.add_to_cart', product_id=fruit.id) }}">
+        <input type="hidden" name="item" value="{{ fruit.name }}">
+        <input type="hidden" name="base_price" value="{{ fruit.price }}">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <select name="weight" class="form-select me-3" onchange="updatePrice(this)">
+            <option value="200gm" selected>200gm</option>
+            <option value="500gm">500gm</option>
+          </select>
+          <div class="price-box mb-2">₹{{ (fruit.price * 0.4)|int }}</div>
+        </div>
+
+
+        {% set already_added = false %}
+        {% for entry in cart %}
+          {% if entry["product_id"] == fruit.id and entry["weight"] == request.form.get("weight", "200gm") %}
+            {% set already_added = true %}
+          {% endif %}
+        {% endfor %}
+        <button type="submit" class="btn btn-primary w-100">
+          {% if already_added %}
+            Added to Cart
+          {% else %}
+            Add to Cart
+          {% endif %}
+        </button>
+
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Offers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+{% with messages = get_flashed_messages(category_filter=["admin"]) %}
+  {% if messages %}
+    <div class="alert alert-success">{{ messages[0] }}</div>
+  {% endif %}
+{% endwith %}
+
+<body class="bg-light">
+  <div class="container mt-4">
+    <nav class="navbar navbar-light bg-light mb-4">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Manage Offers</span>
+        <a href="{{ url_for('admin_bp.home') }}" class="btn btn-secondary">🏠 Admin Home</a>
+        <a href="{{ url_for('admin_bp.logout') }}" class="btn btn-danger">Logout</a>
+      </div>
+    </nav>
+
+    <form method="POST" action="{{ url_for('admin_bp.update_offer') }}">
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="offerSwitch" name="enabled" value="true"
+               {% if offer and offer.enabled %}checked{% endif %}>
+        <label class="form-check-label" for="offerSwitch">Enable Offer</label>
+      </div>
+
+      <div class="mb-3">
+        <label for="offerText" class="form-label">Offer Line</label>
+        <input type="text" class="form-control" id="offerText" name="text"
+               value="{{ offer.text if offer else '' }}" {% if not offer or not offer.enabled %}disabled{% endif %}>
+      </div>
+
+      <div class="mb-3">
+        <label for="min_order" class="form-label">Minimum Order Amount (₹)</label>
+        <input type="number" class="form-control" id="min_order" name="min_order" min="0"
+         value="{{ offer.min_order if offer else 0 }}" {% if not offer or not offer.enabled %}disabled{% endif %}>
+      </div>
+
+      <div class="mb-3">
+        <label for="discount" class="form-label">Discount (%)</label>
+        <input type="number" class="form-control" id="discount" name="discount" min="1" max="100"
+               value="{{ offer.discount if offer else 0 }}" {% if not offer or not offer.enabled %}disabled{% endif %}>
+      </div>
+
+      <button type="submit" class="btn btn-success">Save Offer</button>
+    </form>
+
+    <script>
+      const switchInput = document.getElementById('offerSwitch');
+      const textInput = document.getElementById('offerText');
+      const discountInput = document.getElementById('discount');
+      const minOrderInput = document.getElementById('min_order');
+      switchInput.addEventListener('change', () => {
+        const enabled = switchInput.checked;
+        textInput.disabled = !enabled;
+        discountInput.disabled = !enabled;
+        minOrderInput.disabled = !enabled;
+      });
+    </script>
+
+  </div>
+</body>
+</html>
