@@ -34,7 +34,8 @@
       <h2 class="text-success mb-3">Complete Your Order</h2>
       <p class="fs-5 mb-4">Scan the QR code below to proceed with payment:</p>
 
-      <img src="{{ url_for('static', filename='images/qr_code.png') }}"
+      <!--<img src="{{ url_for('static', filename='images/qr_code.png') }}"-->
+      <img src="data:image/png;base64,{{ qr_code }}"
            alt="Payment QR Code"
            class="img-fluid qr-image">
 

@@ -2,6 +2,9 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from models import db, DryFruit, Offer, Order, User
 import json
+import qrcode
+import io
+import base64
 
 cart_bp = Blueprint("cart_bp", __name__)
 
@@ -93,7 +96,23 @@ def place_order():
     flash("Order placed successfully!", "success")
     return redirect(url_for("dashboard"))
     '''
-    return render_template("place_order.html")
+    ##########from here###############
+    user_id = session.get("user_id")
+    cart_key = f"cart_{user_id}" if user_id else "cart"
+    cart = session.get(cart_key, [])
+    total = sum(item["price"] for item in cart)
+
+    upi_id = "mohdsajjad261@ybl"
+    payee_name = "VolpeNuts"
+    payment_url = f"upi://pay?pa={upi_id}&pn={payee_name}&am={total}&cu=INR"
+
+    qr = qrcode.make(payment_url)
+    buffer = io.BytesIO()
+    qr.save(buffer, format="PNG")
+    qr_b64 = base64.b64encode(buffer.getvalue()).decode()
+    ##########till here###############
+
+    return render_template("place_order.html", qr_code=qr_b64, total=total)
 
 @cart_bp.route("/confirm_order", methods=["POST"])
 def confirm_order():
