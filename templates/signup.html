@@ -28,6 +28,10 @@
                 {{ form.email(class="form-control", required=True) }}
               </div>
               <div class="mb-3">
+                {{ form.address.label(class="form-label") }}
+                {{ form.address(class="form-control", required=True) }}
+              </div>
+              <div class="mb-3">
                 {{ form.phone.label(class="form-label") }}
                 {{ form.phone(class="form-control", required=True) }}
               </div>

@@ -39,6 +39,30 @@ def add_to_cart(product_id):
 
     return redirect(url_for("index"))
 
+@cart_bp.route("/checkout", methods=["POST"])
+def checkout():
+    if not session.get("user_logged_in"):
+        flash("Please log in to continue.", "warning")
+        return redirect(url_for("user_bp.user_login"))
+
+    user_id = session.get("user_id")
+    user = User.query.get_or_404(user_id)
+
+    use_different_address = "different_address" in request.form
+    use_different_phone = "different_phone" in request.form
+
+    address = request.form.get("address") if use_different_address else user.address
+    phone = request.form.get("phone") if use_different_phone else user.phone
+
+    if not address or not phone:
+        flash("Address and phone number are required.", "danger")
+        return redirect(url_for("cart_bp.cart"))
+
+    session["checkout_address"] = address
+    session["checkout_phone"] = phone
+
+    return redirect(url_for("cart_bp.place_order"))
+
 @cart_bp.route("/cart")
 def cart():
     user_id = session.get("user_id")
@@ -56,9 +80,13 @@ def cart():
         discount_amount = int(total * discount / 100)
         total -= discount_amount
 
+    # ✅ Fetch user if logged in
+    user = None
+    if user_id:
+        user = User.query.get(user_id)
     return render_template("cart.html", cart=cart, total=total,
                            discount=discount, discount_amount=discount_amount,
-                           min_order=offer.min_order if offer else 0)
+                           min_order=offer.min_order if offer else 0, user=user)
 
 
 @cart_bp.route("/remove_from_cart", methods=["POST"])
@@ -131,11 +159,17 @@ def confirm_order():
     # Fetch user details (example: from User model)
     user = User.query.get(user_id)
 
+
+    # ✅ Pull overridden values from session
+    address = session.get("checkout_address", user.address)
+    phone = session.get("checkout_phone", user.phone)
+
     # ✅ Create new order with status 'Pending'
     new_order = Order(
         user_id=user.id,
         user_name=user.username,
-        phone_number=user.phone,
+        user_address=address,       # will fetch either signup address or manual address
+        phone_number=phone,         # will fetch signup phone by default but manual if user select change
         items=cart,  # you may serialize this into JSON
         status="Pending"
     )

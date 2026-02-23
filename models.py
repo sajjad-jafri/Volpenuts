@@ -9,6 +9,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(15), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
 
@@ -49,6 +50,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
     user_name = db.Column(db.String(100), nullable=False)
+    user_address = db.Column(db.String(200), nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)
     items = db.Column(db.JSON, nullable=False) # store cart items as JSON
     status = db.Column(db.String(20), default="Pending") # Pending, Approved, Cancelled

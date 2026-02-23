@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+import os
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, current_app
 from models import db, Admin, DryFruit, User, Offer, Order
 from forms import LoginForm, DryFruitForm
+from werkzeug.utils import secure_filename
 
 admin_bp = Blueprint("admin_bp", __name__, url_prefix="/admin")
 
@@ -21,9 +23,18 @@ def dryfruits():
         return redirect(url_for("admin_bp.login"))
     form = DryFruitForm()
     if form.validate_on_submit():
+        file = form.image.data
+        if file:
+            filename = secure_filename(file.filename)
+            # Save into static/images
+            file.save(os.path.join(current_app.root_path, "static/images", filename))
+            # Store relative path for use in templates
+            image_path = f"images/{filename}"
+
         fruit = DryFruit(
             name=form.name.data,
-            image=form.image.data,
+            #image=form.image.data,
+            image=image_path,
             price=int(form.price.data),
             priority=form.priority.data
         )

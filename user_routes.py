@@ -30,6 +30,7 @@ def signup():
             new_user = User(
                 username=form.username.data,
                 email=form.email.data,
+                address=form.address.data,
                 phone=form.phone.data,
                 password_hash=generate_password_hash(form.password.data)
             )

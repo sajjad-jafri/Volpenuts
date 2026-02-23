@@ -27,52 +27,57 @@
 <body class="d-flex flex-column min-vh-100">
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{{ url_for('index') }}">
-        <img src="{{ url_for('static', filename='images/volpenut_logo-removebg.png') }}" alt="VolPeNuts Logo" height="50">
-      </a>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/logo_volpenuts.png') }}" alt="VolPeNuts Logo" height="50">
+    </a>
 
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto d-flex gap-3">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('index') }}">🏠 Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('about') }}">📖 About Us</a>
+        </li>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto d-flex gap-3">
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url_for('index') }}">🏠 Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url_for('about') }}">📖 About Us</a>
-  </li>
-
-  {% if not session.get("user_logged_in") %}
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('user_bp.user_login') }}">🔐 Login</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('cart_bp.cart') }}">
-      🛒 Cart{% if cart_count > 0 %} ({{ cart_count }}){% endif %}
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('contact') }}">📞 Contact Us</a>
-    </li>
-  {% else %}
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('user_bp.dashboard') }}">📋 Dashboard</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('cart_bp.cart') }}">
-        🛒 Cart{% if cart_count > 0 %} ({{ cart_count }}){% endif %}
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link text-danger" href="{{ url_for('user_bp.user_logout') }}">🚪 Logout</a>
-    </li>
-  {% endif %}
-
-</ul>
-
-      </div>
+        {% if not session.get("user_logged_in") %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user_bp.user_login') }}">🔐 Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('cart_bp.cart') }}">
+              🛒 Cart{% if cart_count > 0 %} ({{ cart_count }}){% endif %}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('contact') }}">📞 Contact Us</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user_bp.dashboard') }}">📋 Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('cart_bp.cart') }}">
+              🛒 Cart{% if cart_count > 0 %} ({{ cart_count }}){% endif %}
+            </a>
+          </li>
+          <!-- ✅ Dropdown for user name -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown"
+               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{ session.get("username").capitalize() }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark bg-dark" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item text-danger" href="{{ url_for('user_bp.user_logout') }}">🚪 Logout</a></li>
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
+
 
   <!-- ✅ Flash Messages -->
   <div class="container mt-3">

@@ -54,6 +54,22 @@ body {
     background-color: #d32f2f;
 }
 
+/* Make dropdown look like navbar */
+.dropdown-menu-dark {
+  background-color: #212529; /* same as bg-dark */
+}
+
+.dropdown-menu-dark .dropdown-item {
+  color: rgba(255,255,255,.75); /* same as nav-link default */
+}
+
+.dropdown-menu-dark .dropdown-item:hover,
+.dropdown-menu-dark .dropdown-item:focus {
+  color: #fff; /* bright white on hover */
+  background-color: #212529; /* keep same dark background */
+}
+
+
 
 .container {
     display: flex;
