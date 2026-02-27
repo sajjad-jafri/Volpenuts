@@ -40,6 +40,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('about') }}">📖 About Us</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('contact') }}">📞 Contact Us</a>
+        </li>
 
         {% if not session.get("user_logged_in") %}
           <li class="nav-item">
@@ -49,9 +52,6 @@
             <a class="nav-link" href="{{ url_for('cart_bp.cart') }}">
               🛒 Cart{% if cart_count > 0 %} ({{ cart_count }}){% endif %}
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('contact') }}">📞 Contact Us</a>
           </li>
         {% else %}
           <li class="nav-item">

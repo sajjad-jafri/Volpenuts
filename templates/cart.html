@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-4">
-  <h2>Your Cart</h2>
+  <h2 class="mb-2">Your Cart</h2>
+    <div class="w-100"></div> <!-- forces a line break in flex containers -->
   {% if cart %}
     <table class="table table-bordered">
       <thead>
@@ -50,11 +51,16 @@
 
               <!-- Textarea -->
               <div class="col-sm-5">
-                <textarea class="form-control" id="address" name="address" rows="2"
+                  {% if user %}
+                    <textarea class="form-control" id="address" name="address" rows="2"
                           required disabled>{{ user.address if user else '' }}</textarea>
+                  {% else %}
+                    <textarea class="form-control" id="address" name="address" rows="2" required></textarea>
+                  {% endif %}
               </div>
 
               <!-- Checkbox -->
+                {% if user %}
               <div class="col-sm-2">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="different_address"
@@ -62,6 +68,7 @@
                   <label class="form-check-label">Change</label>
                 </div>
               </div>
+                {% endif %}
             </div>
 
             <div class="mb-3 row align-items-center">
@@ -70,11 +77,16 @@
 
               <!-- Input -->
               <div class="col-sm-5">
+                  {% if user %}
                 <input type="text" class="form-control" id="phone" name="phone"
                        value="{{ user.phone if user else '' }}" required disabled>
+                  {% else %}
+                  <input type="text" class="form-control" id="phone" name="phone" required>
+                  {% endif %}
               </div>
 
               <!-- Checkbox -->
+                {% if user %}
               <div class="col-sm-2">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="different_phone"
@@ -82,6 +94,7 @@
                   <label class="form-check-label">Change</label>
                 </div>
               </div>
+                {% endif %}
             </div>
 
             <button type="submit" class="btn btn-success px-4">Proceed to Place Order</button>
@@ -89,7 +102,15 @@
         </form>
     </div>
   {% else %}
-    <p>Your cart is empty.</p>
+    <!-- when users clicks cart but not logged in -->
+    <div class="text-center mt-5">
+        <img src="{{ url_for('static', filename='images/empty_cart.png') }}"
+            width="150" class="mb-2">
+        <p class="text-secondary">Add delicious items and enjoy fast delivery.</p>
+        <a href="{{ url_for('index') }}" class="btn btn-success mt-3">
+            Start Shopping
+        </a>
+    </div>
   {% endif %}
 
 
