@@ -4,6 +4,9 @@ from utils import seed_admin, inject_cart_count
 from admin_routes import admin_bp
 from user_routes import user_bp
 from cart_routes import cart_bp
+from routes import contact_bp
+from flask_mail import Mail
+from itsdangerous import URLSafeTimedSerializer
 import json
 
 app = Flask(__name__)
@@ -11,9 +14,30 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///volpenuts.db'
 app.config['SECRET_KEY'] = '9f3c2a1e8b7d4c6f9a2b3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4g'
 db.init_app(app)
 
+# for sending mail
+app.config['MAIL_SERVER'] = 'smtp.hostinger.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True                 # True if using port 465
+app.config['MAIL_USE_TLS'] = False                # True if using port 587
+app.config['MAIL_USERNAME'] = 'care@volpenuts.com'
+app.config['MAIL_PASSWORD'] = 'Litter@2025'
+app.config['MAIL_DEFAULT_SENDER'] = 'care@volpenuts.com'
+
+mail = Mail(app)
+
+# Inject mail into routes
+import routes
+routes.mail = mail
+
+serializer = URLSafeTimedSerializer(app.secret_key)
+import user_routes
+user_routes.mail = mail
+user_routes.serializer = serializer
+
 app.register_blueprint(admin_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(cart_bp)
+app.register_blueprint(contact_bp)
 
 @app.context_processor
 def inject_cart():

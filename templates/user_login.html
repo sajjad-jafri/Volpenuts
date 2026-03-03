@@ -28,6 +28,11 @@
           </div>
         {% endif %}
       {% endwith %}
+
+      <p class="text-center mt-3">
+        <a href="{{ url_for('user_bp.forgot_password') }}">Forgot your password?</a>
+      </p>
+
       <p class="text-center mt-3">
         New here? <a href="{{ url_for('user_bp.signup') }}">Create an account</a>
       </p>
