@@ -47,15 +47,16 @@
         <form method="POST" action="{{ url_for('cart_bp.checkout') }}">
             <div class="mb-3 row align-items-center">
               <!-- Label -->
+                {% if user %}
               <label for="address" class="col-sm-4 col-form-label">Delivery Address</label>
+                {% endif %}
 
               <!-- Textarea -->
               <div class="col-sm-5">
                   {% if user %}
                     <textarea class="form-control" id="address" name="address" rows="2"
                           required disabled>{{ user.address if user else '' }}</textarea>
-                  {% else %}
-                    <textarea class="form-control" id="address" name="address" rows="2" required></textarea>
+
                   {% endif %}
               </div>
 
@@ -65,7 +66,7 @@
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="different_address"
                          name="different_address">
-                  <label class="form-check-label">Change</label>
+                  <label class="form-check-label">Edit</label>
                 </div>
               </div>
                 {% endif %}
@@ -73,15 +74,16 @@
 
             <div class="mb-3 row align-items-center">
               <!-- Label -->
+                {% if user %}
               <label for="phone" class="col-sm-4 col-form-label">Phone Number</label>
+                {% endif %}
 
               <!-- Input -->
               <div class="col-sm-5">
                   {% if user %}
                 <input type="text" class="form-control" id="phone" name="phone"
                        value="{{ user.phone if user else '' }}" required disabled>
-                  {% else %}
-                  <input type="text" class="form-control" id="phone" name="phone" required>
+
                   {% endif %}
               </div>
 
@@ -91,7 +93,7 @@
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="different_phone"
                          name="different_phone">
-                  <label class="form-check-label">Change</label>
+                  <label class="form-check-label">Edit</label>
                 </div>
               </div>
                 {% endif %}
