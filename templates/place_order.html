@@ -26,6 +26,43 @@
     font-size: 1rem;
     margin: 10px;
   }
+
+  /* Payment logos strip */
+  .payment-strip {
+    border-top: 1px dashed #dee2e6;
+    margin-top: 28px;
+    padding-top: 18px;
+  }
+  .payment-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+  }
+  .payment-logos img,
+  .payment-logos i {
+    height: 28px;              /* Makes all logos uniform in height */
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.9;
+    transition: filter .2s ease, opacity .2s ease, transform .2s ease;
+  }
+  .payment-logos img:hover,
+  .payment-logos i:hover {
+    filter: none;
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  /* Slightly larger on md+ screens */
+  @media (min-width: 768px) {
+    .payment-logos img,
+    .payment-logos i {
+      height: 32px;
+    }
+  }
 </style>
 
 <div class="qr-section">
@@ -34,7 +71,6 @@
       <h2 class="text-success mb-3">Complete Your Order</h2>
       <p class="fs-5 mb-4">Scan the QR code below to proceed with payment:</p>
 
-      <!--<img src="{{ url_for('static', filename='images/qr_code.png') }}"-->
       <img src="data:image/png;base64,{{ qr_code }}"
            alt="Payment QR Code"
            class="img-fluid qr-image">
@@ -49,6 +85,37 @@
           Back to Cart
         </a>
       </div>
+
+      <!-- ✅ We accept (payment logos) -->
+      <div class="payment-strip">
+        <div class="text-muted small mb-2">We accept</div>
+
+        <div class="payment-logos d-flex flex-wrap justify-content-center align-items-center">
+          <!-- Prefer SVGs placed in /static/images/payments/...  -->
+          <img src="{{ url_for('static', filename='images/payments/gpay.svg') }}"
+               alt="Google Pay" title="Google Pay" loading="lazy" height="32">
+
+          <img src="{{ url_for('static', filename='images/payments/amazonpay.svg') }}"
+               alt="Amazon Pay" title="Amazon Pay" loading="lazy" height="32">
+
+          <!-- Visa: you can either use your own visa.svg OR Font Awesome if already loaded -->
+          <!-- Option A: local SVG
+          <img src="{{ url_for('static', filename='images/payments/visa.svg') }}"
+               alt="VISA" title="VISA" loading="lazy" height="32">
+           -->
+
+          <!-- Option B (if Font Awesome loaded in base.html):-->
+          <i class="fa-brands fa-cc-visa" aria-label="VISA" title="VISA" style="height:32px;"></i>
+
+
+          <img src="{{ url_for('static', filename='images/payments/bhim-upi.svg') }}"
+               alt="BHIM UPI" title="BHIM UPI" loading="lazy" height="32">
+
+          <img src="{{ url_for('static', filename='images/payments/rupay.svg') }}"
+               alt="RuPay" title="RuPay" loading="lazy" height="32">
+        </div>
+      </div>
+      <!-- /We accept -->
     </div>
   </div>
 </div>

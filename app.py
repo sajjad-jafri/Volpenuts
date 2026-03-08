@@ -6,6 +6,7 @@ from user_routes import user_bp
 from cart_routes import cart_bp
 from routes import contact_bp
 from flask_mail import Mail
+from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer
 import json
 
@@ -42,6 +43,11 @@ app.register_blueprint(contact_bp)
 @app.context_processor
 def inject_cart():
     return inject_cart_count()
+
+@app.context_processor
+def inject_current_year():
+    return { 'current_year': datetime.now().year}
+
 
 @app.template_filter('loads')
 def loads_filter(s):

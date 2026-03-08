@@ -38,12 +38,12 @@ def contact():
             recipients=[email]
         )
         thankyou_msg.body = f"""
-        Dear {name},
+Dear {name},
 
-        Thank you for reaching out to VolpeNuts. We’ve received your message and will get back to you shortly.
+Thank you for reaching out to VolpeNuts. We’ve received your message and will get back to you shortly.
 
-        Best regards,
-        Team VolpeNuts
+Best regards,
+Team VolpeNuts
         """
         mail.send(thankyou_msg)
         try:

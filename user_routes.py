@@ -3,6 +3,7 @@ from models import db, User, Order
 from forms import UserSignupForm, UserLoginForm
 from werkzeug.security import generate_password_hash
 from flask_mail import Message
+from sqlalchemy import func
 
 user_bp = Blueprint("user_bp", __name__)
 
@@ -53,7 +54,8 @@ def user_login():
 
     if form.validate_on_submit():
         user = User.query.filter(
-            (User.username == form.username.data) | (User.email == form.username.data)
+            (func.lower(User.username) == form.username.data.lower()) |
+            (func.lower(User.email) == form.username.data.lower())
         ).first()
         if user and user.check_password(form.password.data):
             session["user_logged_in"] = True

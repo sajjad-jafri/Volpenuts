@@ -40,7 +40,7 @@
           <img src="{{ url_for('static', filename='images/contact_icon.png') }}"
                alt="Contact Icon"
                class="contact-icon"
-                style="width: 360px; height: auto; border: none; box-shadow: none;">
+                style="width: 200px; height: auto; border: none; box-shadow: none;">
           <h3 class="card-title mb-3 text-primary">Get in Touch</h3>
           <p class="card-text fs-5">
             We'd love to hear from you! Whether you have a question, feedback, or just want to say hello — drop us a message and we'll get back to you shortly.
@@ -56,7 +56,8 @@
     <!-- Right Card: Send a Message -->
     <div class="col-12 col-lg-5">
       <div class="contact-form">
-        <h4 class="mb-4 text-success">Send Us a Message</h4>
+        <h2 class="mb-3" style="color: #2b6777; font-weight: 600; letter-spacing: 1px;">
+          Send Us a Message</h2>
         <form method="POST" action="{{ url_for('contact') }}">
           <div class="mb-3">
             <label for="name" class="form-label">Your Name</label>
