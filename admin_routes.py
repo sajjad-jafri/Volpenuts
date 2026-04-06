@@ -161,6 +161,8 @@ def cancel_order(order_id):
     flash(f"Order {order.id} cancelled.", "danger")
     return redirect(url_for("admin_bp.orders"))
 
+'''
+# To delete the order from admin page and user page 
 @admin_bp.route("/delete_order/<int:order_id>", methods=["POST"])
 def delete_order(order_id):
     order = Order.query.get_or_404(order_id)
@@ -168,3 +170,14 @@ def delete_order(order_id):
     db.session.commit()
     flash(f"Order #{order.id} deleted.", "danger")
     return redirect(url_for("admin_bp.orders"))
+'''
+
+
+@admin_bp.route("/deliver_order/<int:order_id>", methods=["POST"])
+def deliver_order(order_id):
+    order = Order.query.get_or_404(order_id)
+    order.status = "Delivered"
+    db.session.commit()
+    flash(f"Order {order.id} marked as Delivered.", "info")
+    return redirect(url_for("admin_bp.orders"))
+

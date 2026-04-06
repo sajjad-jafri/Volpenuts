@@ -59,16 +59,16 @@ function updatePrice(selectElement) {
         <input type="hidden" name="base_price" value="{{ fruit.price }}">
         <div class="d-flex align-items-center justify-content-between mb-2">
           <select name="weight" class="form-select me-3" onchange="updatePrice(this)">
-            <option value="200gm" selected>200gm</option>
+            <option value="250gm" selected>250gm</option>
             <option value="500gm">500gm</option>
           </select>
-          <div class="price-box mb-2">₹{{ (fruit.price * 0.4)|int }}</div>
+          <div class="price-box mb-2">₹{{ (fruit.price * 0.5)|int }}</div>
         </div>
 
 
         {% set already_added = false %}
         {% for entry in cart %}
-          {% if entry["product_id"] == fruit.id and entry["weight"] == request.form.get("weight", "200gm") %}
+          {% if entry["product_id"] == fruit.id and entry["weight"] == request.form.get("weight", "250gm") %}
             {% set already_added = true %}
           {% endif %}
         {% endfor %}

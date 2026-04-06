@@ -7,29 +7,37 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>Item</th>
-          <th>Weight</th>
-          <th>Price</th>
-          <th>Action</th>
+            <th>Item</th>
+            <th>Weight</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Action</th>
         </tr>
       </thead>
       <tbody>
         {% for item in cart %}
         <tr>
-          <td>{{ item.item }}</td>
-          <td>{{ item.weight }}</td>
-          <td>₹{{ item.price }}</td>
-          <td>
-            <form method="POST" action="{{ url_for('cart_bp.remove_from_cart') }}">
-  <input type="hidden" name="product_id" value="{{ item.product_id }}">
-  <input type="hidden" name="weight" value="{{ item.weight }}">
-  <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-</form>
-          </td>
+            <td>{{ item.item }}</td>
+            <td>{{ item.weight }}</td>
+            <td class="price">₹{{ item.price }}</td>
+            <td>
+                <input type="number" name="qty" value="{{ item.qty or 1 }}" min="1"
+                       class="form-control form-control-sm qty-input" style="width:70px;">
+            </td>
+            <td class="line-total">₹{{ item.price * (item.qty or 1) }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('cart_bp.remove_from_cart') }}">
+                    <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                    <input type="hidden" name="weight" value="{{ item.weight }}">
+                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
+
 
     {% if discount > 0 %}
         <div class="alert alert-success">
@@ -42,7 +50,7 @@
     {% endif %}
 
     <div class="text-center mt-4">
-        <h5 class="mb-3">Total: ₹{{ total }}</h5>
+        <h5 class="mb-3">Total: ₹<span id="cart-total">{{ total }}</span></h5>
 
         <form method="POST" action="{{ url_for('cart_bp.checkout') }}">
             <div class="mb-3 row align-items-center">
@@ -128,6 +136,29 @@ document.getElementById("different_phone").addEventListener("change", function()
   document.getElementById("phone").disabled = !this.checked;
 });
 </script>
+
+<script>
+document.querySelectorAll(".qty-input").forEach(input => {
+  input.addEventListener("input", function() {
+    const row = this.closest("tr");
+    const price = parseFloat(row.querySelector(".price").textContent.replace("₹",""));
+    const qty = parseInt(this.value) || 1;
+    const lineTotal = price * qty;
+
+    // Update line total
+    row.querySelector(".line-total").textContent = "₹" + lineTotal;
+
+    // Recalculate cart total
+    let cartTotal = 0;
+    document.querySelectorAll(".line-total").forEach(cell => {
+      cartTotal += parseFloat(cell.textContent.replace("₹",""));
+    });
+    document.getElementById("cart-total").textContent = cartTotal;
+  });
+});
+</script>
+
+
 
 {% endblock %}
 

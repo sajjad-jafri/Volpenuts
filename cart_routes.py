@@ -10,12 +10,12 @@ cart_bp = Blueprint("cart_bp", __name__)
 
 @cart_bp.route("/add_to_cart/<int:product_id>", methods=["POST"])
 def add_to_cart(product_id):
-    weight = request.form.get("weight", "200gm")
+    weight = request.form.get("weight", "250gm")
     fruit = DryFruit.query.get_or_404(product_id)
 
     # Calculate price
-    if weight == "200gm":
-        price = int(fruit.price * 0.4)
+    if weight == "250gm":
+        price = int(fruit.price * 0.5)
     else:
         price = fruit.price
 
@@ -87,6 +87,23 @@ def cart():
     return render_template("cart.html", cart=cart, total=total,
                            discount=discount, discount_amount=discount_amount,
                            min_order=offer.min_order if offer else 0, user=user)
+
+@cart_bp.route("/update_qty", methods=["POST"])
+def update_qty():
+    product_id = int(request.form.get("product_id"))
+    weight = request.form.get("weight")
+    qty = int(request.form.get("qty", 1))  # default to 1 if empty
+
+    cart = session.get("cart", [])
+    for item in cart:
+        if item["product_id"] == product_id and item["weight"] == weight:
+            item["qty"] = qty
+            break
+
+    session["cart"] = cart
+    flash("Quantity updated!", "success")
+    return redirect(url_for("cart_bp.cart"))
+
 
 
 @cart_bp.route("/remove_from_cart", methods=["POST"])

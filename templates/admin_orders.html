@@ -28,7 +28,9 @@
           <th>Created At</th>
           <th>Status</th>
           <th>Action</th>
+          <!-- To delete the order from admin page and user page
           <th>Delete</th>
+          -->
         </tr>
       </thead>
       <tbody>
@@ -55,22 +57,32 @@
               <span class="badge bg-success">Approved</span>
             {% elif order.status == "Cancelled" %}
               <span class="badge bg-danger">Cancelled</span>
+            {% elif order.status == "Delivered" %}
+              <span class="badge bg-primary">Delivered</span>
             {% endif %}
           </td>
 
           <td>
-            <form method="POST" action="{{ url_for('admin_bp.approve_order', order_id=order.id) }}" style="display:inline;">
-              <button type="submit" class="btn btn-success btn-sm">Approve</button>
-            </form>
-            <form method="POST" action="{{ url_for('admin_bp.cancel_order', order_id=order.id) }}" style="display:inline;">
-              <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-            </form>
+            <div class="d-flex flex-wrap gap-2">
+              <form method="POST" action="{{ url_for('admin_bp.approve_order', order_id=order.id) }}" style="display:inline;">
+                <button type="submit" class="btn btn-success btn-sm">Approve</button>
+              </form>
+              <form method="POST" action="{{ url_for('admin_bp.cancel_order', order_id=order.id) }}" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+              </form>
+              <form method="POST" action="{{ url_for('admin_bp.deliver_order', order_id=order.id) }}" style="display:inline;">
+                <button type="submit" class="btn btn-primary btn-sm">Delivered</button>
+              </form>
+            </div>
           </td>
+          {# Below are commented lines, To delete the order from admin page and user page
           <td>
-            <form action="{{ url_for('admin_bp.delete_order', order_id=order.id) }}" method="post" style="display:inline;">
-              <button class="btn btn-danger btn-sm">Delete</button>
-            </form>
+            <form method="POST" action="{{ url_for('admin_bp.delete_order', order_id=order.id) }}">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
           </td>
+          #}
+
         </tr>
         {% endfor %}
       </tbody>

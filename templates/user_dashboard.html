@@ -50,8 +50,10 @@
                     <span class="badge bg-warning text-dark">Pending</span>
                   {% elif order.status == "Approved" %}
                     <span class="badge bg-success">Approved</span>
-                  {% else %}
+                  {% elif order.status == "Cancelled" %}
                     <span class="badge bg-danger">Cancelled</span>
+                  {% elif order.status == "Delivered" %}
+                    <span class="badge bg-primary">Delivered</span>
                   {% endif %}
                 </td>
                 <td>{{ order.created_at }}</td>

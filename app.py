@@ -66,8 +66,8 @@ def index():
         item = request.form["item"]
         weight = request.form["weight"]
         price = int(request.form["base_price"])
-        if weight == "200gm":
-            price = (price // 5) * 2
+        if weight == "250gm":
+            price = (price // 2)
 
         # ✅ Get product_id from form or match by name
         fruit = next((f for f in dry_fruits if f.name == item), None)
