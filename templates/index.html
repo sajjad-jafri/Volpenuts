@@ -16,23 +16,39 @@ function updatePrice(selectElement) {
 </script>
 
 <style>
-  .bg-maroon {
+.bg-maroon {
     background-color: maroon;
   }
+
+
+.flying-nut {
+  position: absolute;
+  width: 50px;
+  animation: float 12s linear infinite;
+  opacity: 0.7;
+}
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-100px) translateX(50px); }
+  100% { transform: translateY(0) translateX(100vw); }
+}
 </style>
 
+<!-- Dry Fruits Cards Section -->
+{% if offer and offer.enabled and offer.text %}
+  <div class="bg-maroon text-white py-2">
+    <marquee behavior="scroll" direction="left">{{ offer.text }}</marquee>
+  </div>
+{% endif %}
+
+<!-- Video Section -->
 <div class="container-fluid p-0">
-  <img src="{{ url_for('static', filename='images/home_img.jpg') }}"
-       alt="VolPeNuts Banner"
-       class="w-100"
-       style="height: 520px; object-fit: cover; display: block;">
+  <video autoplay muted loop playsinline class="w-100" style="height:auto; max-height:600px; object-fit:cover; display:block;">
+    <source src="{{ url_for('static', filename='videos/Webhome.mp4') }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 </div>
 
-{% if offer and offer.enabled and offer.text %}
-<div class="bg-maroon text-white py-2">
-  <marquee behavior="scroll" direction="left">{{ offer.text }}</marquee>
-</div>
-{% endif %}
 
 <!--
 <div class="hero text-center my-4">
@@ -46,6 +62,15 @@ function updatePrice(selectElement) {
   </h1>
 </div>
 -->
+
+<div class="position-relative">
+  <!-- Flying nuts -->
+  <img src="{{ url_for('static', filename='images/nut1.png') }}" class="flying-nut" style="top:20%; left:0;">
+  <img src="{{ url_for('static', filename='images/nut2.png') }}" class="flying-nut" style="top:50%; left:-100px; animation-delay:3s;">
+  <img src="{{ url_for('static', filename='images/nut3.png') }}" class="flying-nut" style="top:70%; left:-200px; animation-delay:5s;">
+  <img src="{{ url_for('static', filename='images/nut4.png') }}" class="flying-nut" style="top:35%; left:-50px; animation-delay:1s;">
+  <img src="{{ url_for('static', filename='images/nut5.png') }}" class="flying-nut" style="top:60%; left:-700px; animation-delay:2s;">
+
 
 <!-- ✅ Product Cards -->
 <div class="container d-flex flex-wrap justify-content-center gap-4 mb-5">
@@ -85,5 +110,59 @@ function updatePrice(selectElement) {
   </div>
   {% endfor %}
 </div>
+</div>
+
+
+<!-- Home img Section -->
+<div class="container-fluid p-0">
+  <img src="{{ url_for('static', filename='images/home_img.jpg') }}"
+       alt="VolPeNuts Banner"
+       class="w-100"
+       style="height: 520px; object-fit: cover; display: block;">
+</div>
+
+
+<!-- Our Services Section -->
+<section class="my-5">
+
+  <!-- Heading -->
+  <div class="w-100">
+    <h3 class="text-center mb-4">Our Services</h3>
+  </div>
+
+  <!-- Cards -->
+  <div class="container">
+    <div class="row g-4 flex-nowrap">
+
+      <div class="col-4">
+        <div class="card shadow-sm text-center h-100">
+          <div class="card-body">
+            <h5>🚚 Fast Delivery</h5>
+            <p>Premium dry fruits delivered quickly and safely.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="card shadow-sm text-center h-100">
+          <div class="card-body">
+            <h5>🥜 Premium Quality</h5>
+            <p>We source only the finest dry fruits.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="card shadow-sm text-center h-100">
+          <div class="card-body">
+            <h5>💳 Secure Payment</h5>
+            <p>Secure checkout with UPI and cards.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 {% endblock %}
