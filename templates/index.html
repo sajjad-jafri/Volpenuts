@@ -15,25 +15,6 @@ function updatePrice(selectElement) {
 }
 </script>
 
-<style>
-.bg-maroon {
-    background-color: maroon;
-  }
-
-
-.flying-nut {
-  position: absolute;
-  width: 50px;
-  animation: float 12s linear infinite;
-  opacity: 0.7;
-}
-@keyframes float {
-  0% { transform: translateY(0) translateX(0); }
-  50% { transform: translateY(-100px) translateX(50px); }
-  100% { transform: translateY(0) translateX(100vw); }
-}
-</style>
-
 <!-- Dry Fruits Cards Section -->
 {% if offer and offer.enabled and offer.text %}
   <div class="bg-maroon text-white py-2">
@@ -62,14 +43,6 @@ function updatePrice(selectElement) {
   </h1>
 </div>
 -->
-
-<div class="position-relative">
-  <!-- Flying nuts -->
-  <img src="{{ url_for('static', filename='images/nut1.png') }}" class="flying-nut" style="top:20%; left:0;">
-  <img src="{{ url_for('static', filename='images/nut2.png') }}" class="flying-nut" style="top:50%; left:-100px; animation-delay:3s;">
-  <img src="{{ url_for('static', filename='images/nut3.png') }}" class="flying-nut" style="top:70%; left:-200px; animation-delay:5s;">
-  <img src="{{ url_for('static', filename='images/nut4.png') }}" class="flying-nut" style="top:35%; left:-50px; animation-delay:1s;">
-  <img src="{{ url_for('static', filename='images/nut5.png') }}" class="flying-nut" style="top:60%; left:-700px; animation-delay:2s;">
 
 
 <!-- ✅ Product Cards -->
@@ -109,7 +82,6 @@ function updatePrice(selectElement) {
     </div>
   </div>
   {% endfor %}
-</div>
 </div>
 
 
@@ -163,6 +135,27 @@ function updatePrice(selectElement) {
 
     </div>
   </div>
+    <br><br>
+   <!-- ✅ We accept (payment logos) -->
+      <div class="container mt-5">
+        <div class="text-center">
+        <h5 class="fw-bold mb-3 text-uppercase text-muted">We Accept</h5>
+        <div class="d-flex flex-wrap justify-content-center align-items-center gap-4">
+          <!-- Prefer SVGs placed in /static/images/payments/...  -->
+          <img src="{{ url_for('static', filename='images/payments/gpay.svg') }}"
+             alt="Google Pay" title="Google Pay" height="40">
+          <img src="{{ url_for('static', filename='images/payments/amazonpay.svg') }}"
+             alt="Amazon Pay" title="Amazon Pay" height="40">
+          <img src="{{ url_for('static', filename='images/payments/visa.svg') }}"
+             alt="Visa" title="Visa" height="40">
+          <img src="{{ url_for('static', filename='images/payments/bhim-upi.svg') }}"
+             alt="BHIM UPI" title="BHIM UPI" height="40">
+          <img src="{{ url_for('static', filename='images/payments/rupay.svg') }}"
+             alt="RuPay" title="RuPay" height="40">
+      </div>
+      </div>
+    </div>
+      <!-- /We accept -->
 </section>
 
 {% endblock %}

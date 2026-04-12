@@ -85,37 +85,6 @@
           Back to Cart
         </a>
       </div>
-
-      <!-- ✅ We accept (payment logos) -->
-      <div class="payment-strip">
-        <div class="text-muted small mb-2">We accept</div>
-
-        <div class="payment-logos d-flex flex-wrap justify-content-center align-items-center">
-          <!-- Prefer SVGs placed in /static/images/payments/...  -->
-          <img src="{{ url_for('static', filename='images/payments/gpay.svg') }}"
-               alt="Google Pay" title="Google Pay" loading="lazy" height="32">
-
-          <img src="{{ url_for('static', filename='images/payments/amazonpay.svg') }}"
-               alt="Amazon Pay" title="Amazon Pay" loading="lazy" height="32">
-
-          <!-- Visa: you can either use your own visa.svg OR Font Awesome if already loaded -->
-          <!-- Option A: local SVG
-          <img src="{{ url_for('static', filename='images/payments/visa.svg') }}"
-               alt="VISA" title="VISA" loading="lazy" height="32">
-           -->
-
-          <!-- Option B (if Font Awesome loaded in base.html):-->
-          <i class="fa-brands fa-cc-visa" aria-label="VISA" title="VISA" style="height:32px;"></i>
-
-
-          <img src="{{ url_for('static', filename='images/payments/bhim-upi.svg') }}"
-               alt="BHIM UPI" title="BHIM UPI" loading="lazy" height="32">
-
-          <img src="{{ url_for('static', filename='images/payments/rupay.svg') }}"
-               alt="RuPay" title="RuPay" loading="lazy" height="32">
-        </div>
-      </div>
-      <!-- /We accept -->
     </div>
   </div>
 </div>

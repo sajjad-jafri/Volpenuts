@@ -147,7 +147,7 @@ def place_order():
     cart = session.get(cart_key, [])
     total = sum(item["price"] for item in cart)
 
-    upi_id = "mohdsajjad261@ybl"
+    upi_id = "9720154120@ptsbi"
     payee_name = "VolpeNuts"
     payment_url = f"upi://pay?pa={upi_id}&pn={payee_name}&am={total}&cu=INR"
 
